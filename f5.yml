@@ -8,7 +8,7 @@
   vars:
     provider:
       password: zingoPLUS
-      server: 192.168.0.242
+      server: "{{ ansible_host }}" #192.168.0.242
       user: admin
       validate_certs: no
       server_port: 443
