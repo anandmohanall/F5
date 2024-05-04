@@ -36,6 +36,20 @@
           - http
           - clientssl
       delegate_to: localhost
+    
+    - name: Create a VIP 2
+      bigip_virtual_server:
+        provider: "{{ provider }}"
+        description: foo-vip
+        destination: 172.16.10.109
+        name: vip-2
+        pool: web
+        port: 80
+        snat: Automap
+        profiles:
+          - http
+          - clientssl
+      delegate_to: localhost
 
     - name: Add members to pool
       bigip_pool_member:
