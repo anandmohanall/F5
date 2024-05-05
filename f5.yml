@@ -12,7 +12,7 @@
     - name: Setup provider
       ansible.builtin.set_fact:
         provider:
-        password: zingoPLUS
+          password: zingoPLUS
           server: "{{ ansible_host }}" #192.168.0.242
           user: admin
           validate_certs: no
