@@ -13,10 +13,10 @@
       ansible.builtin.set_fact:
         provider:
         password: zingoPLUS
-        server: "{{ ansible_host }}" #192.168.0.242
-        user: admin
-        validate_certs: no
-        server_port: 443
+          server: "{{ ansible_host }}" #192.168.0.242
+          user: admin
+          validate_certs: no
+          server_port: 443
     - name: Create a pool
       bigip_pool:
         provider: "{{ provider }}"

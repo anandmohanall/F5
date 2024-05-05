@@ -2,3 +2,4 @@ all #localhost
 
 # git commit f5.yml host.yml to local
 #git push origin master  to git hub
+#git commit f5.yml host.yml -m -m "*" -m "Description remove var and add provider"
