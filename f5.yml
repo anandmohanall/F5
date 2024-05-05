@@ -5,15 +5,18 @@
   connection: local
   gather_facts: no
 
-  vars:
-    provider:
-      password: zingoPLUS
-      server: "{{ ansible_host }}" #192.168.0.242
-      user: admin
-      validate_certs: no
-      server_port: 443
+  
 
   tasks:
+
+    - name: Setup provider
+      ansible.builtin.set_fact:
+        provider:
+        password: zingoPLUS
+        server: "{{ ansible_host }}" #192.168.0.242
+        user: admin
+        validate_certs: no
+        server_port: 443
     - name: Create a pool
       bigip_pool:
         provider: "{{ provider }}"
@@ -40,7 +43,7 @@
     - name: Create a VIP 2
       bigip_virtual_server:
         provider: "{{ provider }}"
-        description: foo-vip
+        description: foo-vip2
         destination: 172.16.10.109
         name: vip-2
         pool: web

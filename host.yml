@@ -1,1 +1,4 @@
 all #localhost
+
+# git commit f5.yml host.yml to local
+#git push origin master  to git hub
