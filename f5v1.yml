@@ -62,7 +62,7 @@
         provider: "{{ provider }}"
         name: "{{ vip_name }}"
         destination: "{{ vip_ip }}"
-        partition: "DC-NG-RX-PROD"
+        partition: Common  #"DC-NG-RX-PROD"
         port: "443"
         enabled_vlans: "all"
         all_profiles: ['http', ] #'clientssl', 'oneconnect'
@@ -75,5 +75,3 @@
         provider: "{{ provider }}"
         save: true
       when: '"Active" in result.stdout'
-
-#    - name: Syncronize Hosts
