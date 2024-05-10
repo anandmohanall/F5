@@ -62,6 +62,7 @@
         provider: "{{ provider }}"
         name: "{{ vip_name }}"
         destination: "{{ vip_ip }}"
+        partition: DC-NG-RX-PROD
         port: "443"
         enabled_vlans: "all"
         all_profiles: ['http', ] #'clientssl', 'oneconnect'
