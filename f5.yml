@@ -58,7 +58,7 @@
         name: "{{ item.name }}"
         pool: "{{ vip_name }}_pool"
         port: 80
-        partition: DC-NG-RX-PROD
+        partition: "{{ partition }}"
       with_items:
         - host: 10.10.10.10
           name: web01
