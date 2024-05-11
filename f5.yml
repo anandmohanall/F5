@@ -39,7 +39,7 @@
       bigip_virtual_server:
         provider: "{{ provider }}"
         #description: foo-vip
-        destination: 172.16.10.108
+        destination: " {{ vip_ip }} "
         name: "{{ vip_name }}"
         pool: "{{ vip_name }}_pool"
         port: 80
