@@ -42,7 +42,7 @@
         destination: "{{ vip_ip }}"
         name: "{{ vip_name }}"
         pool: "{{ vip_name }}_pool"
-        port: 80
+        port: "{{ vip_frontend_port }}"
         partition: "{{ partition }}" #partition: DC-NG-RX-PROD
         snat: Automap
         profiles:
