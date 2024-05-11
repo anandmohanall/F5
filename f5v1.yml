@@ -67,7 +67,7 @@
         partition: "DC-NG-RX-PROD" #"DC-NG-RX-PROD"
         port: "443"
         enabled_vlans: "all"
-        all_profiles: ['http', ] #'clientssl', 'oneconnect'
+        #all_profiles: ['http', ] #'clientssl', 'oneconnect'
         pool: "{{ vip_name }}_pool"
         snat: "Automap"
       when: '"Active" in result.stdout'
