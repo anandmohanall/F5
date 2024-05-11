@@ -39,6 +39,7 @@
       f5networks.f5_modules.bigip_pool:
         provider: "{{ provider }}"
         name: "{{ vip_name }}_pool"
+        partition: "DC-NG-RX-PROD"
         lb_method: "round-robin"
         monitors: "/Common/http"
         monitor_type: "and_list"
