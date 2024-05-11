@@ -8,7 +8,7 @@
     - name: Setup provider
       ansible.builtin.set_fact:
         provider:
-          password: "{{  f5_admin_password  }}" #zingoPLUS
+          password: "{{ f5_admin_password }}" #zingoPLUS
           server: "{{ ansible_host }}"
           user: "{{ f5_admin_user }}" #admin
           validate_certs: no
