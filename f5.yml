@@ -40,7 +40,7 @@
         provider: "{{ provider }}"
         #description: foo-vip
         destination: 172.16.10.108
-        name: vip-1
+        name: "{{ vip_name }}"
         pool: web
         port: 80
         partition: DC-NG-RX-PROD
