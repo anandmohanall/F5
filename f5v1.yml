@@ -2,58 +2,51 @@
 - name: BIG-IP SETUP
   hosts: lb
   connection: local
-  gather_facts: false
+  gather_facts: no
 
   tasks:
-
     - name: Setup provider
       ansible.builtin.set_fact:
         provider:
           server: "{{ ansible_host }}"
-          # user: "{{ f5_admin_user }}"
-          # password: "{{ f5_admin_password }}"
-          server_port: "{{ f5_admin_port }}"
+          user: admin #"{{ f5_admin_user }}"
+          password: zingoPLUS #"{{  f5_admin_password  }}"
+          server_port: 443
           validate_certs: false
 
     - name: Find Active Machine
       f5networks.f5_modules.bigip_command:
         provider: "{{ provider }}"
-        match: "any"
+        match: any
         warn: no
         commands:
           - bash -c "cat /var/prompt/ps1"
       register: result
-  
+
     - debug:
         var: result.stdout
-
-    - name: CREATE NODES
-      f5networks.f5_modules.bigip_node:
-        provider: "{{ provider }}"
-        host: "{{hostvars[item].ansible_host}}"
-        name: "{{hostvars[item].inventory_hostname}}"
-      loop: "{{ groups['web_servers'] }}"
-      when: '"Active" in result.stdout'
 
     - name: CREATE POOL
       f5networks.f5_modules.bigip_pool:
         provider: "{{ provider }}"
-        name: "{{ vip_name }}_pool"
-        partition: "DC-NG-RX-PROD"
-        lb_method: "round-robin"
-        monitors: "/Common/http"
-        monitor_type: "and_list"
+        name: vipone_pool #"{{ vip_name }}_pool"
+        partition: DC-NG-RX-PROD
+        lb_method: ratio-member
+        #monitors: /Common/http
+        #monitor_type: and_list
+        slow_ramp_time: 120
       when: '"Active" in result.stdout'
+      delegate_to: localhost
 
     - name: ADD POOL MEMBERS
       f5networks.f5_modules.bigip_pool_member:
         provider: "{{ provider }}"
-        state: "present"
+        state: present
         name: "{{hostvars[item[0]].inventory_hostname}}"
         host: "{{hostvars[item[0]].ansible_host}}"
         port: "{{item[1]}}"
-        pool: "{{ vip_name }}_pool"
-        partition: "DC-NG-RX-PROD"
+        pool: vipone_pool #"{{ vip_name }}_pool"
+        partition: DC-NG-RX-PROD
       with_nested:
         - "{{ groups['web_servers'] }}"
         - "{{ docker_ports }}"
@@ -62,18 +55,25 @@
     - name: ADD VIRTUAL SERVER
       f5networks.f5_modules.bigip_virtual_server:
         provider: "{{ provider }}"
-        name: "{{ vip_name }}"
+        name: vipone #"{{ vip_name }}"
         destination: " {{ vip_ip }} "
-        partition: "DC-NG-RX-PROD" #"DC-NG-RX-PROD"
+        partition: DC-NG-RX-PROD
         port: "443"
-        enabled_vlans: "all"
+        enabled_vlans: all
         #all_profiles: ['http', ] #'clientssl', 'oneconnect'
-        pool: "{{ vip_name }}_pool"
-        snat: "Automap"
+        pool: vipone_pool #"{{ vip_name }}_pool"
+        snat: Automap
       when: '"Active" in result.stdout'
 
     - name: SAVE RUNNING CONFIG ON BIG-IP
       f5networks.f5_modules.bigip_config:
         provider: "{{ provider }}"
         save: true
+      when: '"Active" in result.stdout'
+    - name: CREATE NODES
+      f5networks.f5_modules.bigip_node:
+        provider: "{{ provider }}"
+        host: "{{hostvars[item].ansible_host}}"
+        name: "{{hostvars[item].inventory_hostname}}"
+      loop: "{{ groups['web_servers'] }}"
       when: '"Active" in result.stdout'

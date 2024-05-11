@@ -1,5 +1,13 @@
-all #localhost
 
+[lb]
+f5 ansible_host=192.168.0.242 f5_admin_port=443 f5_admin_user=admin f5_admin_password=zingoPLUS
+
+#[control]
+#ansible ansible_host=10.1.1.4 ansible_user=centos
+
+[web_servers]
+host1 ansible_host=10.1.20.5 inventory_hostname=10.1.20.6 #ansible_user=centos private_ip=10.1.1.5
+host2 ansible_host=10.1.20.6 inventory_hostname=10.1.20.6 #ansible_user=centos private_ip=10.1.1.6
 # git commit f5.yml host.yml to local
 #git push origin master  to git hub
 #git commit f5.yml host.yml -m -m "*" -m "Description remove var and add provider"
