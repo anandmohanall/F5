@@ -1,6 +1,6 @@
 ---
 - name: Create a VIP, pool and pool members
-  hosts: lb
+  hosts: aci-lbp02-dc
   connection: local
   gather_facts: no
 
