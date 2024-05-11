@@ -8,9 +8,9 @@
     - name: Setup provider
       ansible.builtin.set_fact:
         provider:
-          password: "{{ f5_admin_password }}" #zingoPLUS
+          password: "{{ ANSIBLE_NET_PASSWORD }}" #zingoPLUS
           server: "{{ ansible_host }}"
-          user: "{{ f5_admin_user }}" #admin
+          user: "{{ ANSIBLE_NET_USERNAME }}" #admin
           validate_certs: no
           server_port: 443
     - name: Find Active Machine
