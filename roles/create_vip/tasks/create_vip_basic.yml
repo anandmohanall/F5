@@ -1,0 +1,37 @@
+- name: Set facts for F5 configuration
+  ansible.builtin.set_fact:
+    hosts: f5
+    connection: local
+    provider:
+      password: "{{ f5_admin_password }}"
+      server: "{{ ansible_host }}"
+      user: "{{ f5_admin_user }}"
+      validate_certs: false
+      server_port: 443
+  delegate_to: localhost
+- name: Find Active Machine
+  f5networks.f5_modules.bigip_command:
+    provider:
+      password: "{{ f5_admin_password }}"
+      server: "{{ ansible_host }}"
+      user: admin #"{{ f5_admin_user }}"
+      validate_certs: no
+      server_port: 443
+    match: any
+    warn: no
+    commands:
+      - bash -c "cat /var/prompt/ps1"
+      #- show sys version
+  register: result
+  delegate_to: localhost
+- debug:
+    var: result.stdout
+- name: Create a pool
+  bigip_pool:
+    provider: "{{ provider }}"
+    lb_method: ratio-member
+    name: "{{ vip_name }}_pool"
+    partition: "{{ partition }}" #partition: DC-NG-RX-PROD
+    slow_ramp_time: 120
+  delegate_to: localhost
+  when: '"Active" in result.stdout'

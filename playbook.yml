@@ -1,0 +1,7 @@
+- name: F5 VIP Automation
+  hosts: lb
+  gather_facts: no
+  collections:
+    - f5networks.f5_modules
+  roles:
+    - create_vip

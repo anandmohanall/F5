@@ -1,0 +1,2 @@
+- name: Include task to create a basic vip_ip
+  include_tasks: create_vip_basic.yml

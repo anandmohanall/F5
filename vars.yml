@@ -1,0 +1,5 @@
+vip_name: aphtestone
+vip_ip: 196.196.196.100
+http_port: 80
+ansible_host: 127.0.0.1
+ansible_user: vagrant
