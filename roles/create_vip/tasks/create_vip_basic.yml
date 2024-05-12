@@ -9,6 +9,9 @@
       validate_certs: false
       server_port: 443
   delegate_to: localhost
+- name: Debug - After setting F5 configuration facts
+  ansible.builtin.debug:
+    msg: F5 configuration facts set successfully
 - name: Find Active Machine
   f5networks.f5_modules.bigip_command:
     provider:
