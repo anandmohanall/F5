@@ -1,2 +1,5 @@
 - name: Include task to create a basic vip_ip
   include_tasks: create_vip_basic.yml
+- name: Debug - Before including additional tasks
+  ansible.builtin.debug:
+    msg: Including additional tasks
